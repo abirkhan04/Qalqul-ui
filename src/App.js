@@ -13,11 +13,12 @@ import Login from './components/pages/login';
 import { AppSpinner } from './components/shared/app-spinner';
 
 const Dashboard = lazy(() => import('./components/pages/dashboard'));
+const TopNav = lazy(()=> import('./components/shared/top-bar'));
 
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#8D6E63',
+            main: '#004d40',
             contrastText: '#fff',
         },
         secondary: {
@@ -29,12 +30,12 @@ const theme = createTheme({
         MuiButton: {
             styleOverrides: {
                 root: {
-                    backgroundColor: '#8D6E63',
+                    backgroundColor: '#004d40',
                     color: 'white',
                     padding: '6px 12px',
                     textTransform: 'none',
                     '&:hover': {
-                        backgroundColor: '#8D6E63',
+                        backgroundColor: '#004d40',
                     }
                 },
             },
@@ -63,7 +64,8 @@ const theme = createTheme({
         MuiCard: {
             styleOverrides: {
                 root: {
-                    backgroundColor: '#8D6E63',
+                    padding: '8px',
+                    backgroundColor: '#004d40',
                     borderRadius: '6px',
                     '& .MuiCardHeader-root': {
                         padding: '8px',
@@ -112,7 +114,7 @@ const useStyles = makeStyles({
     wrapper: {
         display: 'flex',
         backgroundColor: '#D7CCC8',
-        minHeight: 'calc( 100vh - 30px)',
+        minHeight: 'calc( 100vh - 42px)',
         flexDirection: 'column',
         position: 'relative',
         left: '0',
@@ -138,29 +140,26 @@ const useStyles = makeStyles({
 function App() {
     const state = useSelector((state) => state.authReducers);
     let { isLoggedIn } = state;
-    let user = localStorage.getItem('user');
-    let store = null;
-    if(user) {
-        console.log("user", user);
-        user = JSON.parse(user);
-        store = user.store;
-    } 
+    let token = localStorage.getItem('token');
     const classes = useStyles();
     const { t } = useTranslation();
 
     useEffect(() => {
-        document.title = (t("Sales Terminal"));
+        document.title = (t("Facebook Communicator"));
     }, [t]);
 
     return (<ThemeProvider theme={theme}><LocalizationProvider dateAdapter={DateAdapter}>
         <div className={classes.topBar}>
+            <Suspense fallback={<AppSpinner isOutside={true} />}>
+                <TopNav/>
+            </Suspense>
         </div>
-        {isLoggedIn || store ? <BrowserRouter>
+        {!isLoggedIn || !token ? <BrowserRouter>
             <div className={classes.wrapper}>
                 <div className="webTop">
                     <WebsiteTop />
                 </div>
-                <div className={classes.bodyWrapper}>
+                <div className={classes.bodyWrapper}>   
                     <Suspense fallback={<AppSpinner isOutside={true} />}>
                         <div className={classes.body}>
                             <Switch>

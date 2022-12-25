@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react';
-import { Button } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/styles';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import Card from '@material-ui/core/Card';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import FacebookLogin from 'react-facebook-login';
+import { sendAccessToken } from '../../actions/auth-actions';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
     wrapper: {
@@ -44,10 +40,6 @@ const useStyles = makeStyles({
        textDecoration: 'none',
        color: 'black'
     },
-    reset: {
-        color: '#4E342E !important',
-        backgroundColor: 'white !important'
-    },
     validation: {
         color: 'red',
         background: 'white',
@@ -63,39 +55,26 @@ const useStyles = makeStyles({
 
 export default function Login() {
     const classes = useStyles();
-    const { t } = useTranslation();
+    const dispatch = useDispatch();
+    const history = useHistory();
 
     const responseFacebook = (response) => {
-        console.log(response);
-      }
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
+        console.log("accessToken: "+ response.accessToken);
+        dispatch(sendAccessToken(response.accessToken));
+        history.push('/');
     }
 
     useEffect(() => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const reset = () => {
-
-    }
-
     return (
         <div className={classes.outer}>
-            <Card className={classes.wrapper}>
-                    <CardContent>
-                    <FacebookLogin
+                <FacebookLogin
                         appId="1592386377900696"
                         autoLoad={true}
-                        fields="name,email,picture"
+                        fields="name,email,picture,user_posts"
                         // onClick={componentClicked}
                         callback={responseFacebook} />
-                    </CardContent>
-            </Card>
-            <div className={classes.linkWrapper}>
-                <Link className={classes.links} to='forget-password'>{t('Forgot password ?')}</Link>
-                <Link className={classes.register} to='sign-up'>{t('Sign up')}</Link>
-            </div>
         </div>)
 }

@@ -18,30 +18,13 @@ export const authenticateUser = (user) => (dispatch) => {
     });
 };
 
-export const sendPasswordRequest = (username) => (dispatch) => {
-    return AuthService.sendPasswordRequest(username).then(() => {
+export const sendAccessToken = (token)=>(dispatch)=> {
+    localStorage.setItem('token', token);
+    return AuthService.sendAccessToken(token).then((response)=> {
         dispatch({
-            type: API_ACTION,
-            success: "Request submitted"
+            type: LOGIN_SUCCESS,
+            token: response.data.token,
+            isLoggedIn: true,
         });
-    }, err =>
-        dispatch({
-            type: API_ACTION,
-            errors: { message: err.response.data }
-        })
-    );
-}
-
-export const registerUser = (user) => (dispatch) => {
-    return AuthService.register(user).then((response) => {
-        dispatch({
-            type: API_ACTION,
-            success: "Submitted successfully. Please wait for approval."
-        });
-    }, err => {
-        dispatch({
-            type: API_ACTION,
-            errors: { message: err.response.data }
-        })
     });
 }
