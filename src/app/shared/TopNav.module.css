@@ -1,0 +1,13 @@
+.root {
+    background-color: #3700B3;
+    min-height: 50px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0px 12px;
+}
+
+.logout {
+    color: white !important;
+    text-transform: none !important;
+}

@@ -1,0 +1,6 @@
+.root {
+    width: 80%;
+    margin-left: 10%;
+    flex-direction: column;
+    padding-top: 12px;
+}

@@ -1,0 +1,31 @@
+.root {
+    width: 100%;
+    padding: 4px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.select {
+   height:  30px;
+   margin-right:  2px;
+   margin-left:  8px;
+}
+
+.links {
+    font-size: 16px;
+    margin: 0px 6px;
+}
+
+.selected {
+    background-color: #3700B3;;
+    color:  white;
+    width:  24px;
+    height:  24px;
+    border-radius:  50%;
+    line-height:  24px; 
+}
+
+.controlLabel {
+    margin-right:  0px !important; 
+}
